@@ -6,55 +6,53 @@ using UnityEngine.UI;
 
 public class CanonController : MonoBehaviour
 {
+    public float degreeAngle = 30.0f;
     public Rigidbody bulletInstance;
     public Transform bulletContainer;
+    public Text bulletText;
 
-    public Text bulletLabel;
-    private int bulletCount = 0;
+    private int _bulletCount;
 
     // Start is called before the first frame update
     void Start()
     {
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Get the mouse position
+        // Get mouse position
         Vector2 mousePosition = Input.mousePosition;
 
-        float horiziontalPosition = mousePosition.x / Screen.width;
-        float verticalPosition = mousePosition.y / Screen.height;
+        // Relative mouse position
+        float horizontalPosition = mousePosition.x / Screen.width;
+        float verticlPosition = mousePosition.y / Screen.height;
 
-        //Set the rotation of canon
-        float degreeAngle = 30.0f;
-        float horizontalRotation = -degreeAngle + degreeAngle * 2 * horiziontalPosition;
-        float verticalRotation = -degreeAngle + degreeAngle * 2 * verticalPosition;
+        // Roate tube based on mouse positions
+        float horizontalRostation = -degreeAngle + degreeAngle * 2 * horizontalPosition;
+        float verticalRostation = -degreeAngle + degreeAngle * 2 * verticlPosition;
 
-        //rotate the game object
-        gameObject.transform.localEulerAngles = new Vector3(
-            verticalRotation,
-            0,
-            horizontalRotation
-            );
+        gameObject.transform.localEulerAngles = new Vector3(verticalRostation, 0, horizontalRostation);
 
 
+        //check mouse press
         if (Input.GetMouseButtonDown(0)) {
-            //Check for Mouse clicks
-            Rigidbody newBulletInstance = Instantiate(bulletInstance, gameObject.transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), bulletContainer) as Rigidbody;
-            //shoot power
+            // Emit a bullet
+            Rigidbody newBulletInstance = Instantiate(bulletInstance, gameObject.transform.position, Quaternion.Euler(new Vector3(0, 0, 0)), bulletContainer);
+            // shoot power
             float shootPower = 50.0f;
-            //get poingting direction of pipe
+            // driecton of the pipe
             Vector3 pipeVector = transform.position + gameObject.transform.up * shootPower;
             newBulletInstance.velocity = pipeVector;
 
-            //on bullet got shoot out
-            bulletCount++;
-            bulletLabel.text = "Bullets: " + bulletCount;
+            // count up bullets
+            _bulletCount++;
+            bulletText.text = "Bullets: " + _bulletCount;
         }
 
 
-        //check for bullets
+        // check bullet positions
         foreach (Transform child in bulletContainer) {
             if (child.position.y < -5) {
                 Destroy(child.gameObject);

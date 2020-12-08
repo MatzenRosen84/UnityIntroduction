@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChickenController : MonoBehaviour
+public class CowController : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -18,14 +18,14 @@ public class ChickenController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        //time delay
         if (collision.gameObject.name == "Floor") {
-            StartCoroutine(RemoveAfterdelay());
-        }
+            StartCoroutine(DestroyOnDelay());
+        } 
     }
 
-    IEnumerator RemoveAfterdelay() {
+    IEnumerator DestroyOnDelay() {
         yield return new WaitForSeconds(2.0f);
         Destroy(gameObject);
     }
+
 }

@@ -5,8 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
-    public ChickenController[] chickens;
-    private int birdsCount = 0;
+    public CowController[] cows;
 
     // Start is called before the first frame update
     void Start()
@@ -17,14 +16,15 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        birdsCount = 0;
-        foreach (ChickenController chicken in chickens) {
-            if (chicken) {
-                birdsCount++;
+        //check for cows
+        int cowCount = 0;
+        foreach (CowController cow in cows) {
+            if (cow) {
+                cowCount++;
             }
         }
 
-        if (birdsCount == 0) {
+        if (cowCount == 0) {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
